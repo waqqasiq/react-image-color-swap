@@ -3,4 +3,4 @@
 * Upload image and extract color
 * Send the file image using multipart/form-data
 * Receive the image in the backend and replace color with the target color
-* Receive image in the front end and
+* Receive the modified image in the client side again using responseType: blob
