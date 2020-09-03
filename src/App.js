@@ -10,6 +10,10 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Axios from 'axios';
 import FileDownload from 'js-file-download';
 import LoadingOverlay from "react-loading-overlay";
+import { ChromePicker } from 'react-color';
+import ColorizeIcon from '@material-ui/icons/Colorize';
+import { CSSTransition, TransitionGroup} from "react-transition-group";
+import './App.css';
 
 const useStyles = (theme) => ({
     root: {
@@ -60,7 +64,7 @@ const useStyles = (theme) => ({
         },
     },
     input: {
-        color: '#fff'
+        color: '#fff',
     },
     textField: {
         //borderColor: '#fff'
@@ -129,6 +133,10 @@ class App extends React.Component {
         replacecolor: '',
         filetosend: null,
         loaderActive: false,
+        defaultReplaceColor: "#fff",
+        showReplacePicker: false,
+        defaultTargetColor: "#fff",
+        showTargetPicker: false
     }
   }
     onDrop = (pictures) => {
@@ -154,6 +162,10 @@ class App extends React.Component {
       [e.target.name]: e.target.value
     })
   }
+    handleChange = (color) => {
+        console.log(color); // color is rgb(a) string
+        this.setState({ color : color });
+    }
 
     handleSubmit = () => {
       console.log('handleSubmit ');
@@ -218,6 +230,26 @@ class App extends React.Component {
         })
     }
 
+    handleReplaceColor = (e) => {
+        console.log(e.hex);
+        let temp = e.hex;
+        let tempcolor = temp.substring(1);
+        this.setState({
+            defaultReplaceColor: e.hex,
+            replacecolor: tempcolor
+        })
+
+    }
+    handleTargetColor = (e) => {
+        console.log(e.hex);
+        let temp = e.hex;
+        let tempcolor = temp.substring(1);
+        this.setState({
+            defaultReplaceColor: e.hex,
+            targetcolor: tempcolor
+        })
+
+    }
 
   render() {
     const {classes} = this.props;
@@ -229,6 +261,7 @@ class App extends React.Component {
             <Grid container spacing={2} className={classes.parentGrid}>
 
 
+
                 <Grid item xs={12} sm={3} className={classes.leftBar}>
                     <Paper className={classes.leftPaper} style={{backgroundColor: '#000', color: '#fff', paddingTop: '20px'}}><h1 className={classes.leftHeader}>SWAP COLORS</h1></Paper>
                     <LoadingOverlay
@@ -237,15 +270,32 @@ class App extends React.Component {
                         // text=''
                     >
                         <Paper className={classes.leftPaper}>
+
+
                             <Grid xs={12} >
-                                <TextField name={'targetcolor'} onChange={this.handleText} className={classes.textField} InputProps={{className: classes.input}}  placeholder={'Target Color Code'}/>
+                                <TextField name={'targetcolor'} value={this.state.targetcolor} onChange={this.handleText} className={classes.textField} InputProps={{className: classes.input}}  placeholder={'Target Color Code'}/>
+                                <ColorizeIcon style={{marginTop: '5px', marginLeft: '5px'}} onClick={()=> this.setState({showTargetPicker: !this.state.showTargetPicker})} />
                             </Grid>
+
+                            {this.state.showTargetPicker ? (<div style={{display: 'flex', justifyContent: 'center', marginTop: '15px', marginBottom: '10px'}}>
+                                <ChromePicker color={this.state.defaultTargetColor} onChange={this.handleTargetColor}/>
+
+                            </div>) : null}
                         </Paper>
+
+
                     </LoadingOverlay>
                         <Paper className={classes.leftPaper}>
-                            <Grid xs={12}>
-                                <TextField name={'replacecolor'} onChange={this.handleText} className={classes.textField}  InputProps={{ className: classes.input}}  placeholder={'Replace Color Code'}/>
-                            </Grid>
+
+                                <Grid xs={12} >
+                                    <TextField name={'replacecolor'} value={this.state.replacecolor} onChange={this.handleText} className={classes.textField}  InputProps={{ className: classes.input}}  placeholder={'Replace Color Code'}/>
+                                    <ColorizeIcon style={{marginTop: '5px', marginLeft: '5px'}} onClick={()=> this.setState({showReplacePicker: !this.state.showReplacePicker})} />
+                                </Grid>
+
+                            {this.state.showReplacePicker ? (<div style={{display: 'flex', justifyContent: 'center', marginTop: '15px', marginBottom: '5px' }}>
+                                <ChromePicker  color={this.state.defaultReplaceColor} onChange={this.handleReplaceColor}/>
+
+                            </div>) : null}
                         </Paper>
                         <Paper className={classes.leftPaper}>
                             <Grid xs={12} sm={12} >
@@ -263,6 +313,7 @@ class App extends React.Component {
                             />
                           </ColorExtractor>
                             <div style={{marginTop: 10}}>
+
 
                                      <ImageUploader
                                     withIcon={false}
@@ -293,7 +344,7 @@ class App extends React.Component {
                                           id="destination"
                                           style={{backgroundColor: color}}
                                           className={classes.colorBoxes}
-                                      ><p style={{textAlign: 'center', color: color}} className={classes.colorText}>{color}</p>
+                                      ><p style={{textAlign: 'center', color: color}} className={classes.colorText}>{color.substring(1)}</p>
 
                                       </div>
                                   )

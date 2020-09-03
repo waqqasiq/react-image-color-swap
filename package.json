@@ -9,11 +9,14 @@
     "axios": "^0.20.0",
     "js-file-download": "^0.4.12",
     "react": "^16.13.1",
+    "react-color": "^2.18.1",
     "react-color-extractor": "^1.1.2",
     "react-dom": "^16.13.1",
     "react-images-upload": "^1.2.8",
     "react-loading-overlay": "^1.0.1",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "react-simple-colorpicker": "^1.4.2",
+    "react-transition-group": "^4.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -37,6 +40,7 @@
     ]
   },
   "devDependencies": {
-    "@material-ui/core": "^4.11.0"
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1"
   }
 }
