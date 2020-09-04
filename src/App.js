@@ -13,7 +13,7 @@ import LoadingOverlay from "react-loading-overlay";
 import { ChromePicker } from 'react-color';
 import ColorizeIcon from '@material-ui/icons/Colorize';
 //import { CSSTransition, TransitionGroup} from "react-transition-group";
-import SampleCatImage from './sample-cat.jpg';
+import SampleImage from './Puppies.jpg';
 
 const useStyles = (theme) => ({
     root: {
@@ -134,9 +134,9 @@ class App extends React.Component {
     super(props);
     this.state = {
         colors: [],
-        url: SampleCatImage,
+        url: SampleImage,
         textInput: '',
-        file: SampleCatImage, //https://i.imgur.com/OCyjHNF.jpg
+        file: SampleImage, //https://i.imgur.com/OCyjHNF.jpg
         targetcolor: '',
         replacecolor: '',
         filetosend: null,
@@ -196,7 +196,8 @@ class App extends React.Component {
           formData.append('targetColor', tgcolor);
           formData.append('replaceColor', rpcolor);
 
-          let baseUrl = 'https://swap-imgcolor-node.herokuapp.com/';
+          //let baseUrl = 'https://swap-imgcolor-node.herokuapp.com/';
+          let baseUrl = 'http://localhost:3001/';
 
           Axios.post(baseUrl + 'replace-color', formData,
               {headers: {'Content-Type': 'multipart/form-data'}, responseType: 'blob'}
