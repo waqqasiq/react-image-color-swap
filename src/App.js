@@ -13,14 +13,13 @@ import LoadingOverlay from "react-loading-overlay";
 import { ChromePicker } from 'react-color';
 import ColorizeIcon from '@material-ui/icons/Colorize';
 import { CSSTransition, TransitionGroup} from "react-transition-group";
-import './App.css';
 
 const useStyles = (theme) => ({
     root: {
         flexGrow: 1,
     },
-    paper: {
-        padding: theme.spacing(2),
+        paper: {
+        padding: theme.spacing(1),
         textAlign: 'center',
         color: '#000',
         height: '100vh',
