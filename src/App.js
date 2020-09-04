@@ -13,6 +13,7 @@ import LoadingOverlay from "react-loading-overlay";
 import { ChromePicker } from 'react-color';
 import ColorizeIcon from '@material-ui/icons/Colorize';
 //import { CSSTransition, TransitionGroup} from "react-transition-group";
+import SampleCatImage from './sample-cat.jpg';
 
 const useStyles = (theme) => ({
     root: {
@@ -133,9 +134,9 @@ class App extends React.Component {
     super(props);
     this.state = {
         colors: [],
-        url: 'https://i.imgur.com/OCyjHNF.jpg',
+        url: SampleCatImage,
         textInput: '',
-        file: 'https://i.imgur.com/OCyjHNF.jpg',
+        file: SampleCatImage, //https://i.imgur.com/OCyjHNF.jpg
         targetcolor: '',
         replacecolor: '',
         filetosend: null,
