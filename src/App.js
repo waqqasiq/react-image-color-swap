@@ -65,7 +65,7 @@ const useStyles = (theme) => ({
     },
     imgStyle: {
         width: '65%',
-        height: 'auto',
+        height: '60vh',
         borderRadius: 5,
         ['@media (max-width: 600px)']: { // eslint-disable-line no-useless-computed-key
             width: '100%',
@@ -102,7 +102,7 @@ const useStyles = (theme) => ({
         },
     },
     colorText: {
-        marginTop: 80,
+        marginTop: '11vh',
         ['@media (max-width: 600px)']: { // eslint-disable-line no-useless-computed-key
             marginTop: 50,
             fontSize: '11px'
@@ -343,7 +343,7 @@ class App extends React.Component {
                                   flexWrap: 'nowrap',
                                 justifyContent: 'center',
                                   overflowX: 'scroll',
-                                  height: 120
+                                  height: '18vh'
                               }}
                               className={classes.colorParentDiv}
 
