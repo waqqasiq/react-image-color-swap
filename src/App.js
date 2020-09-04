@@ -14,6 +14,8 @@ import { ChromePicker } from 'react-color';
 import ColorizeIcon from '@material-ui/icons/Colorize';
 //import { CSSTransition, TransitionGroup} from "react-transition-group";
 import SampleImage from './Puppies.jpg';
+import { ToastContainer, toast, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const useStyles = (theme) => ({
     root: {
@@ -128,9 +130,20 @@ const useStyles = (theme) => ({
 
 });
 
+const notify = (message) => {
+    console.log('message ', message);
+    console.log('notify');
+    toast(message, {autoClose: 2000, transition: Zoom, position: 'top-center', type:'error'})
+};
+const notifysuccess = (message) => {
+    toast(message, {autoClose: 2000, transition: Zoom, position: 'bottom-center', type:'default'});
+}
+
+
 
 class App extends React.Component {
   constructor(props){
+
     super(props);
     this.state = {
         colors: [],
@@ -147,6 +160,8 @@ class App extends React.Component {
         showTargetPicker: false
     }
   }
+
+
     onDrop = (pictures) => {
       // console.log('picture ', picture[0]);
         this.setState({
@@ -196,8 +211,8 @@ class App extends React.Component {
           formData.append('targetColor', tgcolor);
           formData.append('replaceColor', rpcolor);
 
-          //let baseUrl = 'https://swap-imgcolor-node.herokuapp.com/';
-          let baseUrl = 'http://localhost:3001/';
+          let baseUrl = 'https://swap-imgcolor-node.herokuapp.com/';
+          //let baseUrl = 'http://localhost:3001/';
 
           Axios.post(baseUrl + 'replace-color', formData,
               {headers: {'Content-Type': 'multipart/form-data'}, responseType: 'blob'}
@@ -208,6 +223,7 @@ class App extends React.Component {
                   file: URL.createObjectURL(res.data),
                   loaderActive: false
               });
+              notifysuccess('Image has been updated')
               // let url = window.URL.createObjectURL(res.data); //blob
               // let a = document.createElement('a');
               // a.href = url;
@@ -219,11 +235,13 @@ class App extends React.Component {
               this.setState({
                   loaderActive: false
               });
-              alert('Sorry, failed to perform action');
+              //alert('Sorry, failed to perform action');
+              notify('Sorry, failed to perform action');
           });
       }
       else {
-          alert('Wrong Input Provided');
+          //alert('Wrong Input Provided');
+          notify('Wrong Input Provided');
       }
 
 
@@ -276,6 +294,7 @@ class App extends React.Component {
 
 
                 <Grid item xs={12} sm={3} className={classes.leftBar}>
+                    <ToastContainer />
                     <Paper className={classes.leftPaper} style={{backgroundColor: '#000', color: '#fff', paddingTop: '20px'}}><h1 className={classes.leftHeader}>SWAP COLORS</h1></Paper>
                     <LoadingOverlay
                         active={this.state.loaderActive}
