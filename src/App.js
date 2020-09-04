@@ -215,6 +215,10 @@ class App extends React.Component {
               //FileDownload(res.data, 'output.jpg'); can also use this instead of a tag stuff
           }).catch((err) => {
               console.log(err);
+              this.setState({
+                  loaderActive: false
+              });
+              alert('Sorry, failed to perform action');
           });
       }
       else {
