@@ -51,16 +51,25 @@ const useStyles = (theme) => ({
     parentGrid: {
         height: '100vh',
     },
+    // imageDiv: {
+    //     height: '65vh'
+    // },
+    // imageUploaderDiv: {
+    //   height: '15vh'
+    // },
+    // colorParentDiv: {
+    //     height: '15vh'
+    // },
     contentMain: {
 
     },
     imgStyle: {
-        width: 630,
-        height: 450,
+        width: '65%',
+        height: 'auto',
         borderRadius: 5,
         ['@media (max-width: 600px)']: { // eslint-disable-line no-useless-computed-key
             width: '100%',
-            height: 300
+            height: 'auto'
         },
     },
     input: {
@@ -82,8 +91,8 @@ const useStyles = (theme) => ({
         },
     },
     colorBoxes: {
-        width: 75,
-        height: 75,
+        width: '10vh',
+        height: '10vh',
         margin: 10,
         borderRadius: 10,
         ['@media (max-width: 600px)']: { // eslint-disable-line no-useless-computed-key
@@ -306,13 +315,15 @@ class App extends React.Component {
                 </Grid>
                 <Grid item xs={12} sm={9} className={classes.contentMain}>
                     <Paper elevation={10} className={classes.paper}>
+                        <div className={classes.imageDiv}>
                            <ColorExtractor  getColors={this.getColors}>
                              <img
                                 src={this.state.file}
                                 className={classes.imgStyle}
                             />
                           </ColorExtractor>
-                            <div style={{marginTop: 10}}>
+                        </div>
+                            <div style={{marginTop: 10}} className={classes.imageUploaderDiv}>
 
 
                                      <ImageUploader
