@@ -1,6 +1,6 @@
 import React from 'react'
 import { ColorExtractor } from 'react-color-extractor'
-import { makeStyles } from '@material-ui/core/styles';
+//import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -8,11 +8,11 @@ import Button from '@material-ui/core/Button';
 import ImageUploader from 'react-images-upload';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Axios from 'axios';
-import FileDownload from 'js-file-download';
+//import FileDownload from 'js-file-download';
 import LoadingOverlay from "react-loading-overlay";
 import { ChromePicker } from 'react-color';
 import ColorizeIcon from '@material-ui/icons/Colorize';
-import { CSSTransition, TransitionGroup} from "react-transition-group";
+//import { CSSTransition, TransitionGroup} from "react-transition-group";
 
 const useStyles = (theme) => ({
     root: {
@@ -131,7 +131,6 @@ const useStyles = (theme) => ({
 class App extends React.Component {
   constructor(props){
     super(props);
-    let data = []
     this.state = {
         colors: [],
         url: 'https://i.imgur.com/OCyjHNF.jpg',
@@ -318,6 +317,7 @@ class App extends React.Component {
                            <ColorExtractor  getColors={this.getColors}>
                              <img
                                 src={this.state.file}
+                                alt={'sample cat'}
                                 className={classes.imgStyle}
                             />
                           </ColorExtractor>
