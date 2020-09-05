@@ -219,7 +219,7 @@ class App extends React.Component {
       let rpcolor = this.state.replacecolor;
       let deltae = this.state.deltae;
 
-      if( deltae && tgcolor && rpcolor && tgcolor.length === 6 && rpcolor.length === 6 && this.state.filetosend !== null) {
+      if( deltae && deltae <=100 && deltae >=0 && tgcolor && rpcolor && tgcolor.length === 6 && rpcolor.length === 6 && this.state.filetosend !== null) {
 
           this.setState({
               loaderActive: true
