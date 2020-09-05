@@ -16,6 +16,10 @@ import ColorizeIcon from '@material-ui/icons/Colorize';
 import SampleImage from './Puppies.jpg';
 import { ToastContainer, toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import InfoIcon from '@material-ui/icons/Info';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 
 const useStyles = (theme) => ({
     root: {
@@ -110,7 +114,20 @@ const useStyles = (theme) => ({
             fontSize: '11px'
         },
 
-    }
+    },
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: theme.spacing(2)
+    },
+    modalPaper: {
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+
+    },
     // rightPaper: {
     //     padding: theme.spacing(2),
     //     textAlign: 'center',
@@ -157,7 +174,9 @@ class App extends React.Component {
         defaultReplaceColor: "#fff",
         showReplacePicker: false,
         defaultTargetColor: "#fff",
-        showTargetPicker: false
+        showTargetPicker: false,
+        deltae: '',
+        open: false
     }
   }
 
@@ -195,10 +214,12 @@ class App extends React.Component {
       console.log('this.state.filetosend ', this.state.filetosend);
       console.log('this.state.targetcolor ', this.state.targetcolor);
       console.log('this.state.replacecolor ', this.state.replacecolor);
+      console.log('this.state.deltae ', this.state.deltae);
       let tgcolor = this.state.targetcolor;
       let rpcolor = this.state.replacecolor;
+      let deltae = this.state.deltae;
 
-      if( tgcolor && rpcolor && tgcolor.length === 6 && rpcolor.length === 6 && this.state.filetosend !== null) {
+      if( deltae && tgcolor && rpcolor && tgcolor.length === 6 && rpcolor.length === 6 && this.state.filetosend !== null) {
 
           this.setState({
               loaderActive: true
@@ -210,6 +231,8 @@ class App extends React.Component {
           formData.append("img_upload", this.state.filetosend);
           formData.append('targetColor', tgcolor);
           formData.append('replaceColor', rpcolor);
+          formData.append('deltaE', deltae);
+
 
           let baseUrl = 'https://swap-imgcolor-node.herokuapp.com/';
           //let baseUrl = 'http://localhost:3001/';
@@ -281,6 +304,17 @@ class App extends React.Component {
         })
 
     }
+     handleOpen = () => {
+        this.setState({
+            open: true
+        })
+    };
+
+    handleClose = () => {
+        this.setState({
+            open: false
+        })
+    };
 
   render() {
     const {classes} = this.props;
@@ -329,6 +363,40 @@ class App extends React.Component {
 
                             </div>) : null}
                         </Paper>
+
+                    <Paper className={classes.leftPaper}>
+
+                        <Grid xs={12} >
+                            <TextField name={'deltae'} type={'number'} inputProps={{max: 100}} value={this.state.deltae} onChange={this.handleText} className={classes.textField}  InputProps={{ className: classes.input}}  placeholder={'Delta E value'}/>
+                            <InfoIcon style={{marginTop: '5px', marginLeft: '5px'}} onClick={this.handleOpen}/>
+                        </Grid>
+
+                        <Modal
+                            aria-labelledby="transition-modal-title"
+                            aria-describedby="transition-modal-description"
+                            className={classes.modal}
+                            open={this.state.open}
+                                onClose={this.handleClose}
+                            closeAfterTransition
+                            BackdropComponent={Backdrop}
+                            BackdropProps={{
+                                timeout: 500,
+                            }}
+                        >
+                            <Fade in={this.state.open}>
+                                <div className={classes.modalPaper}>
+                                    <h2 id="transition-modal-title">Delta E Definition</h2>
+                                    <p id="transition-modal-description">ΔE - (Delta E, dE) The measure of change in visual perception of two given colors. </p>
+                                    <p id="transition-modal-description">On a typical scale, the Delta E value will range from 0 to 100.</p>
+                                    <p id="transition-modal-description">In general, input value should be between 2 and 20.</p>
+
+                                </div>
+                            </Fade>
+                        </Modal>
+
+                    </Paper>
+
+
                         <Paper className={classes.leftPaper}>
                             <Grid xs={12} sm={12} >
                                 <Button variant={'contained'} onClick={this.handleSubmit}>SUBMIT</Button>
