@@ -219,54 +219,58 @@ class App extends React.Component {
       let rpcolor = this.state.replacecolor;
       let deltae = this.state.deltae;
 
-      if( deltae && deltae <=100 && deltae >=0 && tgcolor && rpcolor && tgcolor.length === 6 && rpcolor.length === 6 && this.state.filetosend !== null) {
-
-          this.setState({
-              loaderActive: true
-          })
-          tgcolor = "#"+tgcolor;
-          rpcolor = "#"+rpcolor;
-
-          var formData = new FormData();
-          formData.append("img_upload", this.state.filetosend);
-          formData.append('targetColor', tgcolor);
-          formData.append('replaceColor', rpcolor);
-          formData.append('deltaE', deltae);
-
-
-          let baseUrl = 'https://swap-imgcolor-node.herokuapp.com/';
-          //let baseUrl = 'http://localhost:3001/';
-
-          Axios.post(baseUrl + 'replace-color', formData,
-              {headers: {'Content-Type': 'multipart/form-data'}, responseType: 'blob'}
-          ).then((res) => {
-              console.log('res data ', res.data);
+      if(this.state.filetosend !== null){
+          if( deltae && deltae <=100 && deltae >=0 && tgcolor && rpcolor && tgcolor.length === 6 && rpcolor.length === 6) {
 
               this.setState({
-                  file: URL.createObjectURL(res.data),
-                  loaderActive: false
+                  loaderActive: true
+              })
+              tgcolor = "#"+tgcolor;
+              rpcolor = "#"+rpcolor;
+
+              var formData = new FormData();
+              formData.append("img_upload", this.state.filetosend);
+              formData.append('targetColor', tgcolor);
+              formData.append('replaceColor', rpcolor);
+              formData.append('deltaE', deltae);
+
+
+              let baseUrl = 'https://swap-imgcolor-node.herokuapp.com/';
+              //let baseUrl = 'http://localhost:3001/';
+
+              Axios.post(baseUrl + 'replace-color', formData,
+                  {headers: {'Content-Type': 'multipart/form-data'}, responseType: 'blob'}
+              ).then((res) => {
+                  console.log('res data ', res.data);
+
+                  this.setState({
+                      file: URL.createObjectURL(res.data),
+                      loaderActive: false
+                  });
+                  notifysuccess('Image has been updated')
+                  // let url = window.URL.createObjectURL(res.data); //blob
+                  // let a = document.createElement('a');
+                  // a.href = url;
+                  // a.download = 'image-output.jpg';
+                  // a.click();
+                  //FileDownload(res.data, 'output.jpg'); can also use this instead of a tag stuff
+              }).catch((err) => {
+                  console.log(err);
+                  this.setState({
+                      loaderActive: false
+                  });
+                  //alert('Sorry, failed to perform action');
+                  notify('Sorry, failed to perform action');
               });
-              notifysuccess('Image has been updated')
-              // let url = window.URL.createObjectURL(res.data); //blob
-              // let a = document.createElement('a');
-              // a.href = url;
-              // a.download = 'image-output.jpg';
-              // a.click();
-              //FileDownload(res.data, 'output.jpg'); can also use this instead of a tag stuff
-          }).catch((err) => {
-              console.log(err);
-              this.setState({
-                  loaderActive: false
-              });
-              //alert('Sorry, failed to perform action');
-              notify('Sorry, failed to perform action');
-          });
+          }
+          else {
+              //alert('Wrong Input Provided');
+              notify('Wrong Input Provided');
+          }
       }
       else {
-          //alert('Wrong Input Provided');
-          notify('Wrong Input Provided');
+          notify('Choose an image first');
       }
-
 
         //
 
@@ -338,7 +342,7 @@ class App extends React.Component {
                         <Paper className={classes.leftPaper}>
 
 
-                            <Grid xs={12} >
+                            <Grid item xs={12} >
                                 <TextField name={'targetcolor'} value={this.state.targetcolor} onChange={this.handleText} className={classes.textField} InputProps={{className: classes.input}}  placeholder={'Target Color Code'}/>
                                 <ColorizeIcon style={{marginTop: '5px', marginLeft: '5px'}} onClick={()=> this.setState({showTargetPicker: !this.state.showTargetPicker})} />
                             </Grid>
@@ -353,7 +357,7 @@ class App extends React.Component {
                     </LoadingOverlay>
                         <Paper className={classes.leftPaper}>
 
-                                <Grid xs={12} >
+                                <Grid item xs={12} >
                                     <TextField name={'replacecolor'} value={this.state.replacecolor} onChange={this.handleText} className={classes.textField}  InputProps={{ className: classes.input}}  placeholder={'Replace Color Code'}/>
                                     <ColorizeIcon style={{marginTop: '5px', marginLeft: '5px'}} onClick={()=> this.setState({showReplacePicker: !this.state.showReplacePicker})} />
                                 </Grid>
@@ -366,7 +370,7 @@ class App extends React.Component {
 
                     <Paper className={classes.leftPaper}>
 
-                        <Grid xs={12} >
+                        <Grid item xs={12} >
                             <TextField name={'deltae'} type={'number'} inputProps={{max: 100}} value={this.state.deltae} onChange={this.handleText} className={classes.textField}  InputProps={{ className: classes.input}}  placeholder={'Delta E value'}/>
                             <InfoIcon style={{marginTop: '5px', marginLeft: '5px'}} onClick={this.handleOpen}/>
                         </Grid>
@@ -385,10 +389,10 @@ class App extends React.Component {
                         >
                             <Fade in={this.state.open}>
                                 <div className={classes.modalPaper}>
-                                    <h2 id="transition-modal-title">Delta E Definition</h2>
-                                    <p id="transition-modal-description">ΔE - (Delta E, dE) The measure of change in visual perception of two given colors. </p>
-                                    <p id="transition-modal-description">On a typical scale, the Delta E value will range from 0 to 100.</p>
-                                    <p id="transition-modal-description">In general, input value should be between 2 and 20.</p>
+                                    <h3 >Delta E Definition</h3>
+                                    <p >ΔE - (Delta E, dE) The measure of change in visual perception of two given colors. </p>
+                                    <p >On a typical scale, the Delta E value will range from 0 to 100.</p>
+                                    <p >In general, input value should be between 2 and 20.</p>
 
                                 </div>
                             </Fade>
@@ -398,7 +402,7 @@ class App extends React.Component {
 
 
                         <Paper className={classes.leftPaper}>
-                            <Grid xs={12} sm={12} >
+                            <Grid item xs={12} sm={12} >
                                 <Button variant={'contained'} onClick={this.handleSubmit}>SUBMIT</Button>
                             </Grid>
                         </Paper>
